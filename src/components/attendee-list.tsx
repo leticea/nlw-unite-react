@@ -26,7 +26,16 @@ interface Attendee {
 }
 
 export function AttendeeList() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() => {
+    const url = new URL(window.location.toString());
+
+    if (url.searchParams.has("search")) {
+      return url.searchParams.get("search") ?? "";
+    }
+
+    return "";
+  });
+
   const [page, setPage] = useState(() => {
     const url = new URL(window.location.toString());
 
@@ -61,6 +70,16 @@ export function AttendeeList() {
       });
   }, [page, search]);
 
+  function setCurrentSearch(search: string) {
+    const url = new URL(window.location.toString());
+
+    url.searchParams.set("search", search);
+
+    window.history.pushState({}, "", url);
+
+    setSearch(search);
+  }
+
   function setCurrentPage(page: number) {
     const url = new URL(window.location.toString());
 
@@ -72,7 +91,7 @@ export function AttendeeList() {
   }
 
   function onSearchInputChanged(event: ChangeEvent<HTMLInputElement>) {
-    setSearch(event.target.value);
+    setCurrentSearch(event.target.value);
     setCurrentPage(1);
   }
 
@@ -100,6 +119,7 @@ export function AttendeeList() {
           <Search className="size-4 text-emerald-300" />
           <input
             onChange={onSearchInputChanged}
+            value={search}
             className="bg-transparent flex-1 border-0 p-0 text-sm focus:ring-transparent"
             placeholder="Buscar participante..."
           />
