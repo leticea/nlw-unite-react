@@ -125,7 +125,6 @@ export function AttendeeList() {
           />
         </div>
       </div>
-
       <Table>
         <thead>
           <tr className="border-b border-white/10">
