@@ -17,10 +17,18 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 dayjs.extend(relativeTime);
 
+interface Attendee {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+  checkedInAt: string | null;
+}
+
 export function AttendeeList() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [attendees, setAttendees] = useState([]);
+  const [attendees, setAttendees] = useState<Attendee[]>([]);
 
   const totalPages = Math.ceil(attendees.length / 10);
 
@@ -86,7 +94,7 @@ export function AttendeeList() {
           </tr>
         </thead>
         <tbody>
-          {attendees.slice((page - 1) * 10, page * 10).map((attendee) => {
+          {attendees.map((attendee) => {
             return (
               <TableRow key={attendee.id}>
                 <TableCell>
@@ -106,7 +114,13 @@ export function AttendeeList() {
                   </div>
                 </TableCell>
                 <TableCell>{dayjs().to(attendee.createdAt)}</TableCell>
-                <TableCell>{dayjs().to(attendee.checkedInAt)}</TableCell>
+                <TableCell>
+                  {attendee.checkedInAt === null ? (
+                    <span className="text-zinc-500">Did not check-in</span>
+                  ) : (
+                    dayjs().to(attendee.checkedInAt)
+                  )}
+                </TableCell>
                 <TableCell>
                   <IconButton transparent>
                     <MoreHorizontal className="size-4" />
