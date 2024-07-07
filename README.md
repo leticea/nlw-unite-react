@@ -30,7 +30,7 @@ Project developed with Vite and TypeScript for an event manager.
 
 NLW event on the [Rocketseat](https://www.rocketseat.com.br/) platform.
 
-- [Back-end - API] - Under construction
+- [Back-end - API](https://github.com/leticea/nlw-unite-nodejs)
 
 <p align="center">
   <img alt="" src=".github/image.png">
